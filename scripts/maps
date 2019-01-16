@@ -1,0 +1,4 @@
+#!/bin/bash
+
+read input;
+sensible-browser https://www.google.com/maps/search/"$input";

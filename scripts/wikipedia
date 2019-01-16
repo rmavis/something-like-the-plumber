@@ -1,0 +1,4 @@
+#!/bin/bash
+
+read input;
+sensible-browser https://en.wikipedia.org/w/index.php?search="$input";

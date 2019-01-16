@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+
+$stdout.puts `ls #{__dir__}/scripts | theme-dmenu -p "Pipe to" -sb "#e8ffff"`
