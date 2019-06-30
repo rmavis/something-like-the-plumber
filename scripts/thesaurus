@@ -1,4 +1,0 @@
-#!/bin/bash
-
-read input;
-sensible-browser https://www.collinsdictionary.com/dictionary/english-thesaurus/"$input";

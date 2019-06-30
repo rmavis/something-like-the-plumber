@@ -1,4 +1,0 @@
-#!/bin/bash
-
-read input;
-echo -n "$input" | xclip -i -selection clipboard

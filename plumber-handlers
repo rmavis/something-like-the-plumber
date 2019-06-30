@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+
+$stdout.puts `#{__dir__}/plumber | theme-dmenu -p "Pipe to" -sb "#e8ffff"`

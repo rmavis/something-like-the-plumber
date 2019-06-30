@@ -1,7 +1,0 @@
-#!/bin/bash
-
-file=/tmp/plumber-dictionary;
-read input;
-dict "$input" > $file;
-st -e less $file;
-rm $file;

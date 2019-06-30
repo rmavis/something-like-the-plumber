@@ -1,0 +1,97 @@
+#!/usr/bin/env ruby
+
+# The Plumber class contains handler methods. Each handler method
+# must receive a string, act on it, and return nothing.
+class Plumber
+  # self.browser :: string -> void
+  def self.browser(selection)
+    system("sensible-browser \"#{selection}\"")
+  end
+
+  # self.clipboard :: string -> void
+  def self.clipboard(selection)
+    system("echo -n \"#{selection}\" | xclip -i -selection clipboard")
+  end
+
+  # self.dictionary :: string -> void
+  def self.dictionary(selection)
+    file = '/tmp/plumber-dictionary'
+    system("dict \"#{selection}\" > #{file} ; st -e less #{file} ; rm #{file}")
+  end
+
+  # self.duckduckgo :: string -> void
+  def self.duckduckgo(selection)
+    system("sensible-browser https://duckduckgo.com/?q=\"#{selection}\"")
+  end
+
+  # self.maps :: string -> void
+  def self.maps(selection)
+    system("sensible-browser https://www.google.com/maps/search/\"#{selection}\"")
+  end
+
+  # self.mw :: string -> void
+  def self.mw(selection)
+    system("sensible-browser https://www.merriam-webster.com/dictionary/\"#{selection}\"")
+  end
+
+  # self.nautilus :: string -> void
+  def self.nautilus(selection)
+    system("nautilus #{selection.gsub(/ /, '\ ')}")
+  end
+
+  # self.oed :: string -> void
+  def self.oed(selection)
+    system("sensible-browser https://en.oxforddictionaries.com/definition/\"#{selection}\"")
+  end
+
+  # self.thesaurus :: string -> void
+  def self.thesaurus(selection)
+    system("sensible-browser https://www.collinsdictionary.com/dictionary/english-thesaurus/\"#{selection}\"")
+  end
+
+  # self.wikipedia :: string -> void
+  def self.wikipedia(selection)
+    system("sensible-browser https://en.wikipedia.org/w/index.php?search=\"#{selection}\"")
+  end
+end
+
+class Utils
+  # self.list_handlers :: void -> [symbol]
+  def self.list_handlers
+    Plumber.methods(false).sort!
+  end
+
+  # self.get_selection :: void -> string
+  def self.get_selection
+    # Piped input takes precedence over primary selection.
+    if (!$stdin.tty?)
+      args = STDIN.read
+      if (!args.empty?)
+        return args
+      end
+    end
+    return `xclip -out -selection primary`
+  end
+end
+
+# Valid input forms:
+# plumber
+#   Lists handler functions.
+# plumber {handler}
+#   Calls the given handler function with the primary selection.
+# {some input} | plumber {handler}
+#   Calls the given handler method with the piped input.
+# When called with more than one argument, usage information will be
+# printed.
+if (ARGV.length == 0)
+  puts Utils.list_handlers
+elsif (ARGV.length == 1)
+  handler = ARGV[0].to_sym
+  if (Utils.list_handlers.include?(handler))
+    Plumber.send(handler, Utils.get_selection)
+  else
+    $stderr.puts "plumber error: unknown handler '#{ARGV[0]}'"
+  end
+else
+  puts "Usage info should go here."
+end

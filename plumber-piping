@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+handler = `#{__dir__}/plumber-handlers`.chomp
+if (handler.length > 0)
+  system("#{__dir__}/plumber \"#{handler}\"")
+end

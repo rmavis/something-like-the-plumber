@@ -1,4 +1,0 @@
-#!/bin/bash
-
-read input;
-sensible-browser "$input";

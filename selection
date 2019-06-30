@@ -1,6 +1,0 @@
-#!/usr/bin/env ruby
-
-script = `#{__dir__}/list-scripts`
-if (script.length > 0)
-    system("echo `xclip -out -selection primary` | #{__dir__}/scripts/#{script}")
-end
