@@ -70,7 +70,7 @@ class Utils
         return args
       end
     end
-    return `xclip -out -selection primary`
+    return `wl-paste --primary`
   end
 end
 
